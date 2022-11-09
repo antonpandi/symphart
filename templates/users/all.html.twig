@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} All Users {% endblock %}
+
+
+{% block body %}
+<style>
+    .user-container{
+        display: flex;
+    }
+    .user-div{
+        background-color: #aaa;
+        width: 10vw;
+        height: 10vh;
+        padding: 5px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<h1>All Users</h1>
+<div class="user-container">
+    {% for user in users %}
+    <a href="/user/{{user.username}}">
+        <div class="user-div">
+            {{user.username}}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
