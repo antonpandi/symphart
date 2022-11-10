@@ -38,6 +38,17 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByUsername(string $username): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getResult();
+
+            #->getOneOrNullResult()
+        ;
+    }
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

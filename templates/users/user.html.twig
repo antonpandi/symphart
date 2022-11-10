@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %} User {% endblock %}
+
+{% block body %}
+
+<h1>{{user.username ?: 'Anonymous' }}</h1>
+    {% if articles %}
+        {% for article in articles %}
+            <tr>
+                <td>{{article.title}}</td>
+                <td>
+                    <a href="/article/{{article.id}}" class="btn btn-dark">Show</a>
+                    <a href="/article/edit/{{article.id}}" class="btn btn-light">Edit</a>
+                    <a href="#" class="btn btn-danger delete-article" data-id={{article.id}}>Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p> {{user.username}} Does Not Have Any Posts </p>
+        
+    {% endif %}
+
+{% endblock %}

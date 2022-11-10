@@ -39,6 +39,18 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByUsername(string $username)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getResult();
+
+            #->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -63,4 +75,19 @@ class UserRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    // public function getByUsername(string $username){
+    //     $entitymanager = $this->getEntityManager();
+
+    //     $query = $entitymanager->createQuery(
+    //         'select u 
+    //         from App\Entity\User u
+    //         where e.username =: username'
+    //     )->setParameter("username", $username);
+
+    //     return $query->getResult();
+    // }
+
+
+
 }

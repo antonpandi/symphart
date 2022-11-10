@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,19 +77,25 @@ class UserController extends AbstractController
     }
 
      /**
-      * @Route("/user/{username}", name="user_user")
+      * @Route("/user/{username}", name="user_user") 
       */
-     public function show($username)
+     public function show(ManagerRegistry $doctrine, $username)
      {
-        $user = $this->getDoctrine()->getRepository
-        (User::class)->findUser($username);
+        /** @var UserRepository $userRepository*/
+        $userRepository = $doctrine->getRepository(User::class);
 
-        if(is_null($user)){
-            return $this->redirect('/',200);
+        $users = $userRepository->findByUsername($username);
+
+        if(is_null($users)){
+            return $this->redirect('/');
         }
 
-        $articles = $this->getDoctrine()->getRepository
-        (Article::class)->find($username);
+        $user = $users[0];
+
+        /** @var ArticleRepository $articleRepository */
+        $articleRepository = $doctrine->getRepository(Article::class);
+
+        $articles = $articleRepository->findByUsername($username);
 
         if(is_null($articles)){
             return $this->redirect('/');
