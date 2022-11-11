@@ -101,7 +101,7 @@ class UserController extends AbstractController
             };
         } catch (\Throwable $th) {
 
-            return $this->render('users/user.html.twig', array(
+            return $this->render('users/index.html.twig', array(
                 'articles' => $articles,
                 'user' => $user
             ));
