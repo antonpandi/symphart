@@ -77,16 +77,16 @@ class UserController extends AbstractController
     }
 
      /**
-      * @Route("/user/{username}", name="user_user") 
+      * @Route("/user/{username}", name="user_user")
       */
      public function show(ManagerRegistry $doctrine, $username)
      {
         /** @var UserRepository $userRepository*/
         $userRepository = $doctrine->getRepository(User::class);
 
-        $users = $userRepository->findByUsername($username);
+        $user = $userRepository->findByUsername($username);
 
-        if(is_null($users)){
+        if(is_null($user)){
             return $this->redirect('/');
         }
 
@@ -97,14 +97,20 @@ class UserController extends AbstractController
 
         $articles = $articleRepository->findByUsername($username);
 
-        if(is_null($articles)){
-            return $this->redirect('/');
-        }
+        try {
+            if ($user->getUserIdentifier() == $this->getUser()->getUserIdentifier() or $$this->getUser()->getRoles() == 'ROLE_ADMIN' ) {
+                return $this->render('users/user_logged_in.html.twig' , [
+                    'articles' => $articles,
+                    'user' => $user
+                ]);
+            };
+        } catch (\Throwable $th) {
 
-        return $this->render('users/user.html.twig', array(
-            'articles' => $articles,
-            'user' => $user
-        ));
+            return $this->render('users/user.html.twig', array(
+                'articles' => $articles,
+                'user' => $user
+            ));
+        }
      }
 }
   
