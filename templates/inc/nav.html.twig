@@ -7,17 +7,29 @@
     
     <div class="collapse navbar-collapse" id="mobile-nav">
         <ul class="navbar-nav ml-auto">
+            {% if app.user %}
+                <li class="nav-item">
+                    <a href="/user/{{app.user.username}}" class="nav-link">Home</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
-                <a href="/" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Articles</a>
             </li>
-            <li class="nav-item">
-                <a href="/article/new" class="nav-link">New Article</a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a href="/article/new" class="nav-link">New Article</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a href="/user/all" class="nav-link">Users</a>
             </li>
+            {% if not app.user %}
+                <li class="nav-item">
+                    <a href="/register" class="nav-link">Register</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
-                <a href="/user/new" class="nav-link">New User</a>
+                <a href="/{{ app.user ? 'logout' : 'login'}}" class="nav-link">{{ app.User ? "Logout" : "Login"}}</a>
             </li>
         </ul>
     </div>

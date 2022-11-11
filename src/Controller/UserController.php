@@ -41,15 +41,12 @@ class UserController extends AbstractController
      * @Route("/user/new", name="user_new")
      * @Method({"GET","POST"})
      */
-    public function FunctionName(Request $request)
+    public function newUser(Request $request)
     {
 
         $user = new User();
         
         $form = $this->createFormBuilder($user)
-        ->add('username', TextType::class,array( 
-            'attr'=> array('class' => 'form-control') 
-        ))
         ->add('pwd', TextType::class, array(
             'attr' => array( 'class' => 'form-control')
         ))
@@ -89,8 +86,6 @@ class UserController extends AbstractController
         if(is_null($user)){
             return $this->redirect('/');
         }
-
-        $user = $users[0];
 
         /** @var ArticleRepository $articleRepository */
         $articleRepository = $doctrine->getRepository(Article::class);

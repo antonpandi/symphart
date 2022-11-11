@@ -5,10 +5,6 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PhpParser\Node\Stmt\TryCatch;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -18,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class OldUserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -43,41 +39,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
-    {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-        }
-
-        $user->setPassword($newHashedPassword);
-
-        $this->add($user, true);
-    }
-
     public function findByUsername(string $username)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.username = :username')
             ->setParameter('username', $username)
             ->getQuery()
-            #->getResult();
+            ->getResult();
 
-            ->getOneOrNullResult()
+            #->getOneOrNullResult()
         ;
     }
 
-    public function findByEmailOrUsername(string $emailOrUsername){
-        
-        return $this->createQueryBuilder('u')
-            ->where('u.email = : emailOrUsername')
-            ->orWhere('u.username = :emailOrUsername')
-            ->setParameter('emailOrUsername', $emailOrUsername)
-            ->getQuery()
-            ->getResult();
-    }
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
@@ -102,4 +75,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    // public function getByUsername(string $username){
+    //     $entitymanager = $this->getEntityManager();
+
+    //     $query = $entitymanager->createQuery(
+    //         'select u 
+    //         from App\Entity\User u
+    //         where e.username =: username'
+    //     )->setParameter("username", $username);
+
+    //     return $query->getResult();
+    // }
+
+
+
 }

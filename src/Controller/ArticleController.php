@@ -8,12 +8,14 @@
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\Routing\Annotation\Route;
   use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
   use Symfony\Component\Form\Extension\Core\Type\TextType;
   use Symfony\Component\Form\Extension\Core\Type\TextareaType;
   use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\All;
 
 class ArticleController extends AbstractController{
     /**
@@ -47,9 +49,6 @@ class ArticleController extends AbstractController{
         'required' => false,
         'attr' => array('class' => 'form-control')
       ))
-      ->add('username', TextType::class, array(
-        'attr' => array('class' => 'form-control')
-      ))
       ->add('save', SubmitType::class, array(
         'label' => 'Create',
         'attr' => array('class' => 'btn btn-primary mt-3')
@@ -60,6 +59,11 @@ class ArticleController extends AbstractController{
 
       if($form->isSubmitted() && $form->isValid()){
         $article = $form->getData();
+        
+
+        $email = $request->request->get('email');
+        $username = $this->getUser()->getUsername();
+        $article->setUsername($username);
 
         $entityMamager = $this->getDoctrine()->getManager();
         $entityMamager->persist($article);

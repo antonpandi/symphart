@@ -19,8 +19,8 @@
         align-items: center;
     }
 </style>
-<h1>All Users</h1>
-<div class="user-container">
+<h1 style="text-align:center">All Users</h1>
+<div class="d-flex user-container">
     {% for user in users %}
     <a href="/user/{{user.username}}">
         <div class="user-div">

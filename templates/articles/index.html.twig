@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if articles %}
-        <table id="articles">
+        <table id="articles" class="mx-auto">
             <thead>
                 <tr>
                 <th>Article Title</th>
@@ -13,14 +13,7 @@
             </thead>
             <tbody>
                 {% for article in articles %}
-                    <tr>
-                        <td>{{article.title}}</td>
-                        <td>
-                            <a href="/article/{{article.id}}" class="btn btn-dark">Show</a>
-                            <a href="/article/edit/{{article.id}}" class="btn btn-light">Edit</a>
-                            <a href="#" class="btn btn-danger delete-article" data-id={{article.id}}>Delete</a>
-                        </td>
-                    </tr>
+                    {% include('/inc/article_list_item.html.twig')  %}
                 {% endfor %}
             </tbody>
         </table>

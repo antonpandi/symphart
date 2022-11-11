@@ -1,0 +1,14 @@
+{% block article %}
+    <tr>
+        <td>{{article.title}}</td>
+        <td>
+            <a href="/article/{{article.id}}" class="btn btn-dark">Show</a>
+            {% if app.user %}
+                {% if app.user.username == article.username or app.user.roles == 'ROLE_ADMIN' %}
+                    <a href="/article/edit/{{article.id}}" class="btn btn-light">Edit</a>
+                    <a href="#" class="btn btn-danger delete-article" data-id={{article.id}}>Delete</a>
+                {% endif %}
+            {% endif %}
+        </td>
+     </tr>
+{% endblock %}
