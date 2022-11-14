@@ -12,9 +12,6 @@
                     <a href="/user/{{app.user.username}}" class="nav-link">Home</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a href="/" class="nav-link">Articles</a>
-            </li>
             {% if app.user %}
                 <li class="nav-item">
                     <a href="/article/new" class="nav-link">New Article</a>
@@ -28,8 +25,8 @@
                     <a href="/register" class="nav-link">Register</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a href="/{{ app.user ? 'logout' : 'login'}}" class="nav-link">{{ app.User ? "Logout" : "Login"}}</a>
+            <li class="nav-item ">
+                <a href="/{{ app.user ? 'logout' : 'login'}}" class="nav-link"> {{ app.User ? "Logout" : "Login"}}</a>
             </li>
         </ul>
     </div>
